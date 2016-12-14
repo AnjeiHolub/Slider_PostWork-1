@@ -1,0 +1,7 @@
+.slider {
+  list-style: none;
+}
+
+.slider__image {
+  position: absolute;
+}

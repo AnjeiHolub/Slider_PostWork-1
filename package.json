@@ -1,0 +1,19 @@
+{
+  "name": "slider",
+  "version": "1.0.0",
+  "description": "Slider",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AnjeiHolub/Slider_PostWork-1.git"
+  },
+  "author": "Anjei Holub",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AnjeiHolub/Slider_PostWork-1/issues"
+  },
+  "homepage": "https://github.com/AnjeiHolub/Slider_PostWork-1#readme"
+}
