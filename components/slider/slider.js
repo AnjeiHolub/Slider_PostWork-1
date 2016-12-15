@@ -4,10 +4,20 @@
       this._elem = elem;
       this._items = items;
       this._index = 0;
-      this._currentPhoto = this._index;
+      this.setup();
+      this._onClick = this._onClick.bind(this);
+      this.initEvent();
+      
+      
+    }
+
+    setup () {
       this.build();
-      this._allPhotos = this._elem.querySelectorAll('.slider__image');
+      this.$allPhotos = this._elem.querySelectorAll('.slider__image');
       this.hideAllPhotos();
+      this.displayPhoto();
+      this.setupInterval();
+      
     }
 
     build () {
@@ -18,30 +28,70 @@
                   </li>`;
         }).join('');
       };
-      this._elem.innerHTML = `${getImageByIndex(this._items)}`;
-      this.setupInterval();
+      this._elem.innerHTML = `<a class="slider__prev"><</a>
+                              <a class="slider__next">></a>
+                              ${getImageByIndex(this._items)}`;
     }
 
-    hideAllPhotos () {
-      for (let i = 0; i < this._allPhotos.length; i++) {
-        this._allPhotos[i].hidden = !this._allPhotos[i].hidden;
+    initEvent () {
+      this._elem.addEventListener('click', this._onClick);
+    }
+
+    _onClick (event) {
+      let target = event.target;
+      switch (target.className) {
+        case 'slider__prev':
+          this._onClickPrev();
+          break;
+        case 'slider__next':
+          this._onClickNext();
+          break;
       }
     }
 
-    render () {
-      this._allPhotos[this._currentPhoto].hidden = !this._allPhotos[this._currentPhoto].hidden;
-      this._allPhotos[this._index].hidden = !this._allPhotos[this._index].hidden;
-      this._currentPhoto = this._index; 
+    _onClickPrev () {
+      this.stopInterval();
+      this.hidePhoto(this.getCurrentPhoto(this._index));
+      this._index--;
+      if (this._index === -1) this._index = this.$allPhotos.length - 1;
+      this.displayPhoto(); 
+    }
+
+    _onClickNext () {
+      this.stopInterval();
+      this.hidePhoto(this.getCurrentPhoto(this._index));
+      this._index++;
+      if (this._index === this.$allPhotos.length) this._index = 0;
+      this.displayPhoto(); 
+    }
+
+    hideAllPhotos () {
+      this.$allPhotos.forEach(($item) => {
+        this.hidePhoto($item);
+      })
+    }
+
+    hidePhoto (currentPhoto) {
+      currentPhoto.classList.toggle('hide');
+    }
+
+    getCurrentPhoto () {
+       return this.$allPhotos[this._index];
+    }
+ 
+    displayPhoto () {
+      this.$allPhotos[this._index].classList.toggle('hide');
+    }
+
+  
+    stopInterval () {
+      clearInterval(this._interval);
     }
 
     setupInterval () {
-      let interval = setInterval(() => {
-        this._index++;
-        if (this._index === 4) {
-          this._index = 0;
-        };
-        this.render();
-      }, 1000);
+      this._interval = setInterval(
+        this._onClickNext.bind(this)
+      , 5000);
     }
   }
 

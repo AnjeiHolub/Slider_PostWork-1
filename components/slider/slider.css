@@ -1,7 +1,15 @@
+a {
+  font-size: 30px;
+}
+
 .slider {
   list-style: none;
 }
 
 .slider__image {
   position: absolute;
+}
+
+.hide {
+  display: none;
 }
